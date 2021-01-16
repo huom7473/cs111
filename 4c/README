@@ -1,0 +1,47 @@
+NAME: Michael Huo
+EMAIL: EMAIL
+ID: UID
+
+>>>>INCLUDED FILES<<<<
+
+The following files have been included as part of the spec's requirements:
+
+lab4c.c:
+The C source module that is compiled by make (default) into the both
+executables lab4c_tcp and lab4c_tls. The protocol is determined at
+runtime using the executable name.
+
+Makefile:
+Simple Makefile supporting default, clean, dist targets as mandated
+by spec. Intended to be run on Beaglebone with libmraa and libssl installed.
+Since both executables are compiled from the same source file, the default
+option simply compiles the tcp version and makes a hardlink to it to
+avoid having to compile twice.
+
+README:
+this README file.
+
+>>>>END OF INCLUDED FILES<<<<
+
+>>>>NOTES<<<<
+Important: the program often doesn't run properly unless it's run as superuser; it seems that
+it needs higher permissions to correctly initialize/access the sensors. I have an error message
+print out if it detects initialization failure. This was mentioned in the discussion section, so
+I assume it's normal behavior and will be accounted for while testing.
+
+I had a bunch of implementation notes on project 4b, which all apply here; since I passed
+the test cases in 4b, they probably aren't relevant.
+
+Note on ping:
+Sometimes the server log and client log have slightly different ordering of lines.
+For example, there might be an OFF command and an immediate shutdown on the client log,
+whereas on the server log there is another temperature report before the shutdown line.
+I assume this is because it takes time for the server to receive/process messages 
+(mainly network latency, probably), whereas the client logs any sent messages instantly.
+It didn't seem to be a problem for the sanity check.
+
+Note on certificates:
+The spec mentions certificates once, and there's a certificate file in the project
+documents, but the spec didn't mention actually having to do anything with it. Also, 
+on Piazza @602, it was confirmed that we don't have to implement anything for the
+certificate, so I didn't. The sanity check also passes.

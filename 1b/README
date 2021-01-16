@@ -1,0 +1,33 @@
+NAME: Michael Huo
+EMAIL: EMAIL
+ID: UID
+
+The following files are included as documented by the Project 1a spec -
+lab1b-client.c (C source module)
+lab1b-server.c (C source module)
+Makefile - server and client targets are 'server', and 'client', respectively
+README
+
+Notes:
+The spec didn't say anything about --shell being a mandatory argument, but it also didn't
+specify the behavior of a server program ran without the --shell. However, I believe the rest
+of the wording in the doc implied that --shell should be mandatory - since it's impossible to know what
+program to fork/exec without the argument.
+
+The --compress switch, for most realistic use cases
+of these programs, only does harm when sending messages from the client (which gets input from
+the keyboard), and the server, since one (uncompressed) byte is sent at a time due to the
+relatively slow speed that keys are pressed. You can't compress one byte - you can only make data
+transfer less efficient by trying to compress it.
+
+inflateEnd and deflateEnd - according to the zlib manual, these simply free data structures allocated
+in the process of initializing/using the zlib streams. While I tried to call them in many places
+I expected the code to exit, I did not bother to call them for every single system call check error check.
+It would simply bloat the code too much to my liking, and doesn't really contribute anything,
+since the streams are are allocated a maximum of one time each, and if the program exited, the OS
+would clean up any memory occupied by the process, anyway. Similar things can be said for the buffers
+I allocated for various purposes. I understand that while this may not be the ideal practice, I felt it
+would be fine for a project like this one.
+
+Lastly, in case it's worthwhile to mention, a lot of code patterns/conventions I used when working
+with zlib came from the usage example - https://zlib.net/zlib_how.html

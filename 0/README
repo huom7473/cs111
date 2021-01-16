@@ -1,0 +1,32 @@
+NAME: Michael Huo
+EMAIL: EMAIL
+ID: UID
+
+Additional files added:
+smoke.py - Python 3 file responsible for running smoketests - ran by python3 in make check
+
+The remaining files are included as documented by the Project 0 spec -
+lab0.c (C source module)
+Makefile
+backtrace.png
+breakpoint.png
+README
+
+Smoke test cases:
+no arguments: ./lab0 - inputs a test string to the program's stdin and checks that there's
+no errors and stdout is the same as the test string
+
+segfault: ./lab0 --segfault - checks that the program was terminated by a SIGSEGV
+signal
+
+catch: ./lab0 --catch --segfault - checks that program exits with return code 4 and prints
+message to stderr
+
+redirect: ./lab0 --input input.txt --output out.txt - generates a test input file, makes
+sure output file contents are the same after termination, cleans up test files
+
+file error: ./lab0 --input bogus - checks that the program exits with return code 2 after
+printing an error message to stderr
+
+argument error: ./lab0 --bogus - checks that the program exits with return code 1 after
+printing an error message to stderr

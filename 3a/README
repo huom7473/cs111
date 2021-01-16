@@ -1,0 +1,52 @@
+NAME: Michael Huo, Tygan Zeng
+EMAIL: EMAIL, zengtygan@gmail.com
+ID: UID, 705391071
+
+>>>>INCLUDED FILES<<<<
+
+The following files have been included as per the spec's requirements:
+
+lab3a.c:
+C source file that compiles, through the default make target, into the lab3a
+executable. Includes/requires ext2_fs.h, which is also included in the submission.
+
+Makefile:
+A Makefile implementing the targets (default, dist, and clean) required by the
+spec. 'make default' and 'make lab3a' are equivalent - they both produce the
+executable lab3a.
+
+README:
+this README.
+
+The following files were not explicitly mandated by the spec:
+
+ext2_fs.h:
+Provided (and unmodified) header file included by lab3a.c and used to generate
+the lab3a executable.
+
+>>>>END OF INCLUDED FILES<<<<
+
+>>>>NOTES<<<<
+Note on superblock offset in discussion:
+It was mentioned in the discussion (and in the slides) that the block group descriptor
+table starts at block 2, or at an offset of block_size + 1024. This calculation will
+only work assuming the block size is KiB (which might be a fair assumption in the
+scope of this project). According to the ext2 documentation, however, 
+the superblock is not guaranteed to be in block 1, since for
+bigger block sizes, the superblock will start and end in block 0, and the group
+descriptor table will start in block 1, or at an offset of block_size. So block_size
++ 1024 will result in trying to read from the middle of block 1. In our implementation
+we used s_first_data_block in the superblock to determine what offset to use for the
+block group descriptor table, and any other offsets that this might apply
+to.
+
+Note on block offset of block bitmap:
+Although it might not've had a direct impact on the lab and our program correctness
+(since we were guaranteed only one group), it was not obvious at first if the
+block bitmap referred to the block group as a whole or just the data blocks. We decided
+that since the block bitmap had 8192 bits in our case, and each block was exactly
+8192 blocks including the inode table, bitmaps, etc. that the first bit in the
+block bitmap corresponded to the first block of the whole block group (the superblock,
+in our case).
+
+

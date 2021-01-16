@@ -1,0 +1,66 @@
+NAME: Michael Huo
+EMAIL: EMAIL
+ID: UID
+
+>>>>INCLUDED FILES<<<<
+
+The following files have been included as part of the spec's requirements:
+
+lab4b.c:
+The C source module that is compiled by make (default) into the executable
+lab4b.
+
+Makefile:
+Simple Makefile supporting default, check, clean, dist targets as mandated
+by spec. Intended to be run on Beaglebone with libmraa installed.
+
+README:
+this README file.
+
+Additional files:
+
+smoke.py:
+called directly by make check.
+Python smoke check that:
+runs lab4b with log output, give it scale=c command after the first report is generated, wait a few seconds, then give it off command
+checks that all the commands were logged, and the output is in correct format
+checks that temperature output is in reasonable limits, and warns if not
+
+>>>>END OF INCLUDED FILES<<<<
+
+>>>>NOTES<<<<
+Important: the program often doesn't run properly unless it's run as superuser; it seems that
+it needs higher permissions to correctly initialize/access the sensors. I have an error message
+print out if it detects initialization failure. This was mentioned in the discussion section, so
+I assume it's normal behavior and will be accounted for while testing.
+
+Note on smoke test:
+The smoke test is unable to test the button - obviously, you need someone to physically push the button
+in order to test it. It does use the OFF command, though, which does the same thing as the button, more
+or less. However, the smoke check passing does imply that the button was at least initialized
+without error by libmraa.
+
+Note on period:
+It doesn't look like the spec either mandates or forbids floating point value support for period, so
+I allowed double values.
+
+Note on command processing:
+Unless I'm missing something, the spec doesn't say what to do with various possible invalid stdin commands,
+so I did the following in my implementation, since I thought it made the most sense:
+
+unrecognized command:
+e.g. BOGUS=5
+I chose to do nothing, other than put the command in the log file (which the spec says to do).
+
+invalid argument:
+e.g. PERIOD=BOGUS, SCALE=BOGUS
+The value (period/scale) remains unchanged, and the command is logged to file as is.
+
+extremely long command:
+e.g. entire Hamlet text without any newlines passed to stdin
+If a command (text passed in without newlines) exceeds the buffer size 
+(which I specified as 1024, which should be more than enough), the program
+prints a message to stderr and exits. The other options were to use a dynamically allocated
+buffer that keeps growing or to allow buffer overflows, but neither of these were
+appealing to me. This shouldn't be relevant in normal usage scenarios, anyway.
+

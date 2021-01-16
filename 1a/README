@@ -1,0 +1,17 @@
+NAME: Michael Huo
+EMAIL: EMAIL
+ID: UID
+
+The following files are included as documented by the Project 1a spec -
+lab1.c (C source module)
+Makefile
+README
+
+Notes:
+The spec mentions receiving SIGPIPE as a result of trying to write to the shell
+input pipe as an expected way to terminate. However, in reality, it seems unlikely
+that there will be text in the keyboard buffer at the same moment the shell exits,
+so at least with my implementation, it doesn't seem likely that this happens. Nevertheless,
+I arranged for the SIGPIPE signal to just be ignored, since it doesn't have to be
+explicitly checked for - poll() will report a POLLHUP if the shell's write end was
+closed, which will cause my program to exit normally anyway.

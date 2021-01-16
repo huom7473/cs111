@@ -1,0 +1,43 @@
+NAME: Michael Huo, Tygan Zeng
+EMAIL: EMAIL
+ID: UID
+
+>>>>INCLUDED FILES<<<<
+
+The following files have been included as per the spec's requirements:
+
+lab3b.py:
+Python source module that takes in exactly one argument, a csv
+in the format provided by the spec, and produces the required output.
+Called by lab3b.sh.
+
+Makefile:
+A Makefile implementing the targets (default, dist, and clean) required by the
+spec. 'make default' and 'make lab3b' are equivalent - they both produce the
+symlink lab3b, which points to lab3b.sh.
+
+README:
+this README.
+
+The following files were not mandated by the spec:
+
+lab3b.sh:
+A shell script that simply passes its arguments to lab3b.py, which it calls using
+the default python3 interpreter. More robust than a simple shebang line.
+>>>>END OF INCLUDED FILES<<<<
+
+>>>>NOTES<<<<
+There might be some possible file system inconsistencies that our code doesn't check
+for, since they weren't mentioned in the spec. For example, if one directory ended up
+being the child of two directories, as long as the directory was correctly listed
+as a child in the directory that '..' pointed to.
+
+Another example is if a directory didn't have a . or .. entry. If this occured in
+a test csv, the program considers them to refer to inode -1 and print out
+the appropriate error message. Since the spec didn't mention this case and
+therefore didn't specify an error messge for them, we figured this would suffice,
+especially since this case wasn't present in any of the test cases.
+
+As for testing methodology, we used the samples provided to unit test "features"
+as we added them, and relied on the sanity check to do a more thorough check.
+It would've been too time consuming to create our own CSV samples testing edge cases.
